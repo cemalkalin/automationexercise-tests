@@ -31,7 +31,7 @@ public class InvalidLoginTest {
         loginEmail.sendKeys(mail);
         loginPassword.sendKeys(wrongPassword);
         loginButton.click();
-        
+
         WebElement invalidLoginMessage = driver.findElement(By.xpath("//*[@id='form']/div/div/div[1]/div/form/p"));
 
 
