@@ -1,38 +1,53 @@
 package com.cemalkalin.tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.cemalkalin.utils.BaseClass;
+import com.cemalkalin.utils.ConfigsReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class CreateAccountTest {
+public class RegisterUser extends BaseClass {
 
     public static void main(String[]args) throws InterruptedException {
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
 
-        driver.manage().deleteAllCookies();
-        driver.navigate().to("https://automationexercise.com");
-        driver.manage().window().maximize();
+    /*
+    1. Launch browser
+    2. Navigate to url 'http://automationexercise.com'
+    3. Click on 'Signup / Login' button
+    4. Enter name and email address and Click on 'Signup' button
+    5. Fill details:
+    Title, Name, Email, Password, Date of birth
+    First name, Last name, Company, Address, Address2,
+    Country, State, City, Zipcode, Mobile Number
+    6. Click 'Create Account button'
+    7. Verify that 'ACCOUNT CREATED!' is visible
+    */
 
-        String mail = "testcemal38@gmail.com";
+        //1. Launch browser
+        //2. Navigate to url 'http://automationexercise.com'
+        setUp();
+
+        String mail = ConfigsReader.getProperty("username");
         String name = "Cemal";
-        String newPassword = "12345678";
+        String newPassword = ConfigsReader.getProperty("password");
 
+        //3. Click on 'Signup / Login' button
         WebElement signUpLoginButton = driver.findElement(By.xpath("//*[@id='header']/div/div/div/div[2]/div/ul/li[4]/a"));
         signUpLoginButton.click();
 
+        //4. Enter name and email address and Click on 'Signup' button
         WebElement newUserName = driver.findElement(By.xpath("//*[@id='form']/div/div/div[3]/div/form/input[2]"));
         WebElement newUserEmail = driver.findElement(By.xpath("//*[@id='form']/div/div/div[3]/div/form/input[3]"));
         WebElement newUserButton = driver.findElement(By.xpath("//*[@id='form']/div/div/div[3]/div/form/button"));
-
         newUserName.sendKeys(name);
         newUserEmail.sendKeys(mail);
         newUserButton.click();
 
+        //5. Fill details:
+        //Title, Name, Email, Password, Date of birth
+        //First name, Last name, Company, Address, Address2,
+        //Country, State, City, Zipcode, Mobile Number
         WebElement maleRB = driver.findElement(By.xpath("//*[@id='id_gender1']"));
         WebElement femaleRB = driver.findElement(By.xpath("//*[@id='id_gender2']"));
         WebElement userName=driver.findElement(By.xpath("//*[@id='name']"));
@@ -53,10 +68,8 @@ public class CreateAccountTest {
         WebElement years=driver.findElement(By.id("years"));
         WebElement createNewAccount = driver.findElement(By.xpath("//*[@id='form']/div/div/div/div[1]/form/button"));
 
-
         femaleRB.click();
         password.sendKeys(newPassword);
-
 
         Select selDays = new Select(days);
         Select selMonths = new Select(months);
@@ -85,11 +98,13 @@ public class CreateAccountTest {
         zipcode.sendKeys("32765");
         mobileNumber.sendKeys("+1 222 333 44 55");
 
+        //6. Click 'Create Account button'
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0, document.body.scrollHeight)");
         Thread.sleep(2000);
         createNewAccount.click();
 
+        //7. Verify that 'ACCOUNT CREATED!' is visible
         WebElement message = driver.findElement(By.xpath("//*[@id='form']/div/div/div/h2/b"));
         String expectedMessage = "ACCOUNT CREATED!";
         String actualMessage = message.getText();
@@ -102,6 +117,6 @@ public class CreateAccountTest {
             System.out.println("Actual Title: " + actualMessage);
         }
 
-        driver.quit();
+        tearDown();
     }
 }

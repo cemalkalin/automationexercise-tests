@@ -1,36 +1,47 @@
 package com.cemalkalin.tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.cemalkalin.utils.BaseClass;
+import com.cemalkalin.utils.ConfigsReader;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-public class ValidLoginTest {
+public class ValidLoginTest extends BaseClass {
 
     public static void main(String[]args){
 
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().deleteAllCookies();
-        driver.navigate().to("https://automationexercise.com");
-        driver.manage().window().maximize();
+        /*
+        1. Launch browser
+        2. Navigate to url 'http://automationexercise.com'
+        3. Click on 'Signup / Login' button
+        4. Enter correct email address and password
+        5. Click 'login' button
+        6. Verify that 'Logged in as username' is visible
 
-        String mail = "testcemal38@gmail.com";
-        String password = "12345678";
+         */
+
+        //1. Launch browser
+        //2. Navigate to url 'http://automationexercise.com'
+        setUp();
+
+        //3. Click on 'Signup / Login' button
         WebElement signUpLoginButton = driver.findElement(By.xpath("//*[@id='header']/div/div/div/div[2]/div/ul/li[4]/a"));
-
         signUpLoginButton.click();
 
+        String mail = ConfigsReader.getProperty("username");
+        String name = "Cemal";
+        String password = ConfigsReader.getProperty("password");
         WebElement loginEmail = driver.findElement(By.xpath("//div[@class='login-form']/form/input[@data-qa='login-email']"));
         WebElement loginPassword = driver.findElement(By.xpath("//div[@class='login-form']/form/input[@data-qa='login-password']"));
         WebElement loginButton = driver.findElement(By.xpath("//div[@class='login-form']/form/button[@data-qa='login-button']"));
 
-
+        //4. Enter correct email address and password
         loginEmail.sendKeys(mail);
         loginPassword.sendKeys(password);
+
+        //5. Click 'login' button
         loginButton.click();
 
+        //6. Verify that 'Logged in as username' is visible
         WebElement userName = driver.findElement(By.xpath("//*[@id='header']/div/div/div/div[2]/div/ul/li[10]/a"));
 
         String actualUserName = userName.getText();
@@ -44,7 +55,7 @@ public class ValidLoginTest {
             System.out.println(actualUserName+"-->"+expectedUserName);
         }
 
-        driver.quit();
+        tearDown();
     }
 
 }

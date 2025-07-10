@@ -1,11 +1,12 @@
 package com.cemalkalin.tests;
 
+import com.cemalkalin.utils.BaseClass;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
-public class ContactForm {
+public class ContactForm extends BaseClass {
 
     public static void main(String [] args) throws InterruptedException {
 

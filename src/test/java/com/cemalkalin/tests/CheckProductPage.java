@@ -24,7 +24,7 @@ public class CheckProductPage {
 
         Assert.assertEquals(currentUrl, expectedUrl,"URLs are not match. Test is failed");
 
-        System.out.println("Messages are match. Test is passed");
+        System.out.println("URL are match. Test is passed");
 
         driver.quit();
 

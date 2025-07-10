@@ -1,39 +1,43 @@
 package com.cemalkalin.tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.cemalkalin.utils.BaseClass;
+import com.cemalkalin.utils.ConfigsReader;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-public class InvalidLoginTest {
+public class InvalidLoginTest extends BaseClass {
 
     public static void main(String[]args){
 
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
-        driver.manage().deleteAllCookies();
-        driver.navigate().to("https://automationexercise.com");
-        driver.manage().window().maximize();
+        /*
+       1. Launch browser
+       2. Navigate to url 'http://automationexercise.com'
+       3. Click on 'Signup / Login' button
+       4. Enter incorrect email address and password
+       7. Click 'login' button
+       8. Verify error 'Your email or password is incorrect!' is visible
+       */
 
-        String mail = "testcemal38@gmail.com";
-        String wrongPassword = "wrongpass123";
+        // 1. Launch browser
+        // 2. Navigate to url 'http://automationexercise.com'
+        setUp();
+
+        //3. Click on 'Signup / Login' button
         WebElement signUpLoginButton = driver.findElement(By.xpath("//*[@id='header']/div/div/div/div[2]/div/ul/li[4]/a"));
-
         signUpLoginButton.click();
 
-
+        //4. Enter incorrect email address and password
+        String wrongMail = "testcemal3838@gmail.com";
+        String wrongPassword = "wrongpass123";
         WebElement loginEmail = driver.findElement(By.xpath("//div[@class='login-form']/form/input[@data-qa='login-email']"));
         WebElement loginPassword = driver.findElement(By.xpath("//div[@class='login-form']/form/input[@data-qa='login-password']"));
         WebElement loginButton = driver.findElement(By.xpath("//div[@class='login-form']/form/button[@data-qa='login-button']"));
 
-
-        loginEmail.sendKeys(mail);
+        loginEmail.sendKeys(wrongMail);
         loginPassword.sendKeys(wrongPassword);
         loginButton.click();
 
         WebElement invalidLoginMessage = driver.findElement(By.xpath("//*[@id='form']/div/div/div[1]/div/form/p"));
-
 
         String actualInvalidLoginMessage = invalidLoginMessage.getText();
         String expectedInvalidLoginMessage = "Your email or password is incorrect!";
@@ -46,7 +50,7 @@ public class InvalidLoginTest {
             System.out.println(actualInvalidLoginMessage+"-->"+expectedInvalidLoginMessage);
         }
 
-        driver.quit();
+        tearDown();
 
     }
 }
