@@ -22,6 +22,7 @@ public class RegisterUserExistingMail extends BaseClass {
         //1. Launch browser
         //2. Navigate to url 'http://automationexercise.com'
         setUp();
+        System.out.println("First Test");
 
         String mail = ConfigsReader.getProperty("username");
         String name = "Cemal";
@@ -52,6 +53,8 @@ public class RegisterUserExistingMail extends BaseClass {
         System.out.println("Messages are match. Test is passed");
 
         tearDown();
+
+
         
 
     }
